@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Entity\Comment;
 use App\Form\CommentType;
+use app\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,7 +49,9 @@ class BlogController extends AbstractController
     {
         $comment = new Comment();
         $comment->setPost($post);
+
         $form = $this->createForm(CommentType::class, $comment)->handleRequest($request);
+
         if($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->persist($comment);
             $this->getDoctrine()->getManager()->flush();

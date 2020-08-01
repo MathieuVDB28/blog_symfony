@@ -17,7 +17,7 @@ class CommentType extends AbstractType
             ->add('author', TextType::Class, [
                 "label" => "Pseudo:"
             ])
-            ->add('content', TextAreaType::Class, [
+            ->add('content', TextareaType::Class, [
                 "label" => "Votre message: "
             ]) 
         ;

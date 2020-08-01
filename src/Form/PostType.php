@@ -17,7 +17,7 @@ class PostType extends AbstractType
             ->add('title', TextType::class, [
                 "label" => "Titre:"
             ])
-            ->add('content', TextAreaType::class, [
+            ->add('content', TextareaType::class, [
                 "label" => "Article:"
             ])
         ;
