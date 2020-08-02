@@ -3,14 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Form\PostType;
 use App\Entity\Comment;
 use App\Form\CommentType;
-use App\Form\PostType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Uploader\UploaderInterface;
 
 class BlogController extends AbstractController
 {
@@ -43,7 +46,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/artcile-{id}", name="blog_read")
+     * @Route("/article-{id}", name="blog_read")
      */
     public function read(Post $post, Request $request): Response
     {
@@ -64,15 +67,24 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/publier-artcile", name="blog_create")
+     * @Route("/publier-article", name="blog_create")
      */
-    public function create(Request $request): Response
+    public function create(Request $request, UploaderInterface $uploader): Response
     {
         $post = new Post();
 
-        $form = $this->createForm(PostType::class, $post)->handleRequest($request);
+        $form = $this->createForm(PostType::class, $post, [
+            "validation_groups" => ["Defaut", "create"]
+        ])->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var UploadedFile $file
+             */
+            $file = $form->get("file")->getData();
+
+            $post->setImage($uploader->upload($file));
+
             $this->getDoctrine()->getManager()->persist($post);
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute("blog_read", ["id" => $post->getId()]);
@@ -83,13 +95,23 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/modifier-artcile{id}", name="blog_update")
+     * @Route("/modifier-article{id}", name="blog_update")
      */
-    public function update(Request $request, Post $post): Response
+    public function update(Request $request, Post $post, UploaderInterface $uploader): Response
     {
         $form = $this->createForm(PostType::class, $post)->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+
+            /**
+             * @var UploadedFile $file
+             */
+            $file = $form->get("file")->getData();
+
+            if($file !== null) {
+                $post->setImage($uploader->upload($file));
+        }
+            
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute("blog_read", ["id" => $post->getId()]);
         }

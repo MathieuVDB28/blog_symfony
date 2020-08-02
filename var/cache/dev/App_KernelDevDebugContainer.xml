@@ -72,6 +72,8 @@
     </parameter>
     <parameter key="kernel.charset">UTF-8</parameter>
     <parameter key="kernel.container_class">App_KernelDevDebugContainer</parameter>
+    <parameter key="uploadsRelativeDir">uploads</parameter>
+    <parameter key="uploadsAbsoluteDir">/Users/mathieuvandenbussche/Documents/Symfony/Blog/public/uploads</parameter>
     <parameter key="event_dispatcher.event_aliases" type="collection">
       <parameter key="Symfony\Component\Console\Event\ConsoleCommandEvent">console.command</parameter>
       <parameter key="Symfony\Component\Console\Event\ConsoleErrorEvent">console.error</parameter>
@@ -333,7 +335,7 @@
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
       <call method="setContainer">
-        <argument type="service" id=".service_locator.g9CqTPp.App\Controller\BlogController"/>
+        <argument type="service" id=".service_locator..Pq8JkE.App\Controller\BlogController"/>
       </call>
     </service>
     <service id="App\DataFixtures\PostFixtures" class="App\DataFixtures\PostFixtures" autowire="true" autoconfigure="true">
@@ -352,6 +354,11 @@
     <service id="App\Repository\PostRepository" class="App\Repository\PostRepository" autowire="true" autoconfigure="true">
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
+    </service>
+    <service id="App\Uploader\Uploader" class="App\Uploader\Uploader" autowire="true" autoconfigure="true">
+      <argument type="service" id="slugger"/>
+      <argument>/Users/mathieuvandenbussche/Documents/Symfony/Blog/public/uploads</argument>
+      <argument>uploads</argument>
     </service>
     <service id="argument_metadata_factory" class="Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadataFactory" public="false"/>
     <service id="response_listener" class="Symfony\Component\HttpKernel\EventListener\ResponseListener" public="false">
@@ -2765,7 +2772,7 @@
     <service id="router.default" class="Symfony\Bundle\FrameworkBundle\Routing\Router" public="false">
       <tag name="monolog.logger" channel="router"/>
       <tag name="container.service_subscriber" id="routing.loader"/>
-      <argument type="service" id=".service_locator.lwpeR6U.router.default"/>
+      <argument type="service" id=".service_locator.bKRvJhi.router.default"/>
       <argument>kernel::loadRoutes</argument>
       <argument type="collection">
         <argument key="cache_dir">/Users/mathieuvandenbussche/Documents/Symfony/Blog/var/cache/dev</argument>
@@ -5162,19 +5169,34 @@
         <argument key="post" type="service" id=".errored..service_locator.A2a9FbN.App\Entity\Post"/>
       </argument>
     </service>
-    <service id=".service_locator.55I.8Gd" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.f7z5upO" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="uploader" type="service" id="App\Uploader\Uploader"/>
+      </argument>
+    </service>
+    <service id=".service_locator.n98FyFo" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="post" type="service" id=".errored..service_locator.n98FyFo.App\Entity\Post"/>
+        <argument key="uploader" type="service" id="App\Uploader\Uploader"/>
+      </argument>
+    </service>
+    <service id=".service_locator.S1Aviz6" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="App\Controller\BlogController::create" type="service" id=".service_locator.f7z5upO"/>
         <argument key="App\Controller\BlogController::read" type="service" id=".service_locator.A2a9FbN"/>
-        <argument key="App\Controller\BlogController::update" type="service" id=".service_locator.A2a9FbN"/>
+        <argument key="App\Controller\BlogController::update" type="service" id=".service_locator.n98FyFo"/>
         <argument key="App\Kernel::loadRoutes" type="service" id=".service_locator.C9JCBPC"/>
         <argument key="App\Kernel::registerContainerConfiguration" type="service" id=".service_locator.C9JCBPC"/>
         <argument key="App\Kernel::terminate" type="service" id=".service_locator.beq5mCo"/>
         <argument key="kernel::loadRoutes" type="service" id=".service_locator.C9JCBPC"/>
         <argument key="kernel::registerContainerConfiguration" type="service" id=".service_locator.C9JCBPC"/>
         <argument key="kernel::terminate" type="service" id=".service_locator.beq5mCo"/>
+        <argument key="App\Controller\BlogController:create" type="service" id=".service_locator.f7z5upO"/>
         <argument key="App\Controller\BlogController:read" type="service" id=".service_locator.A2a9FbN"/>
-        <argument key="App\Controller\BlogController:update" type="service" id=".service_locator.A2a9FbN"/>
+        <argument key="App\Controller\BlogController:update" type="service" id=".service_locator.n98FyFo"/>
         <argument key="kernel:loadRoutes" type="service" id=".service_locator.C9JCBPC"/>
         <argument key="kernel:registerContainerConfiguration" type="service" id=".service_locator.C9JCBPC"/>
         <argument key="kernel:terminate" type="service" id=".service_locator.beq5mCo"/>
@@ -5452,7 +5474,7 @@
         <argument key="translation.loader.yml" type="service" id="translation.loader.yml"/>
       </argument>
     </service>
-    <service id=".service_locator.g9CqTPp" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator..Pq8JkE" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="doctrine" type="service" id="doctrine" on-invalid="ignore"/>
@@ -5469,11 +5491,11 @@
         <argument key="twig" type="service" id="twig" on-invalid="ignore"/>
       </argument>
     </service>
-    <service id=".service_locator.g9CqTPp.App\Controller\BlogController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator..Pq8JkE.App\Controller\BlogController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator_context" id="App\Controller\BlogController"/>
       <argument>App\Controller\BlogController</argument>
       <argument type="service" id="service_container"/>
-      <factory service=".service_locator.g9CqTPp" method="withContext"/>
+      <factory service=".service_locator..Pq8JkE" method="withContext"/>
     </service>
     <service id=".service_locator.s2oGJED" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
@@ -5487,17 +5509,17 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.s2oGJED" method="withContext"/>
     </service>
-    <service id=".service_locator.lwpeR6U" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.bKRvJhi" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="routing.loader" type="service" id="routing.loader"/>
       </argument>
     </service>
-    <service id=".service_locator.lwpeR6U.router.default" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.bKRvJhi.router.default" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator_context" id="router.default"/>
       <argument>router.default</argument>
       <argument type="service" id="service_container"/>
-      <factory service=".service_locator.lwpeR6U" method="withContext"/>
+      <factory service=".service_locator.bKRvJhi" method="withContext"/>
     </service>
     <service id=".service_locator.LHmLVnd" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
@@ -5636,12 +5658,12 @@
       <argument type="service" id="security.token_storage"/>
     </service>
     <service id="debug.argument_resolver.service.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
-      <argument type="service" id=".service_locator.55I.8Gd"/>
+      <argument type="service" id=".service_locator.S1Aviz6"/>
     </service>
     <service id="debug.argument_resolver.default.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false"/>
     <service id="debug.argument_resolver.variadic.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver" public="false"/>
     <service id="debug.argument_resolver.not_tagged_controller.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver" public="false">
-      <argument type="service" id=".service_locator.55I.8Gd"/>
+      <argument type="service" id=".service_locator.S1Aviz6"/>
     </service>
     <service id=".debug.http_client.inner" class="Symfony\Contracts\HttpClient\HttpClientInterface" public="false">
       <argument type="collection"/>
@@ -5654,6 +5676,7 @@
     <service id=".errored..service_locator.beq5mCo.Symfony\Component\HttpFoundation\Response" class="Symfony\Component\HttpFoundation\Response"/>
     <service id=".errored..service_locator.C9JCBPC.Symfony\Component\Config\Loader\LoaderInterface" class="Symfony\Component\Config\Loader\LoaderInterface"/>
     <service id=".errored..service_locator.A2a9FbN.App\Entity\Post" class="App\Entity\Post"/>
+    <service id=".errored..service_locator.n98FyFo.App\Entity\Post" class="App\Entity\Post"/>
     <service id="console.command_loader" class="Symfony\Component\Console\CommandLoader\ContainerCommandLoader" public="true">
       <tag name="container.no_preload"/>
       <argument type="service" id=".service_locator.y52Hdkq"/>
@@ -5913,6 +5936,7 @@
     <service id="Symfony\Component\DependencyInjection\ContainerInterface" alias="service_container" public="false">
       <deprecated package="symfony/dependency-injection" version="5.1">The "%alias_id%" autowiring alias is deprecated. Define it explicitly in your app if you want to keep using it.</deprecated>
     </service>
+    <service id="App\Uploader\UploaderInterface" alias="App\Uploader\Uploader" public="false"/>
     <service id="App\Kernel" alias="kernel" public="true"/>
     <service id="Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface" alias="parameter_bag" public="false"/>
     <service id="Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface" alias="parameter_bag" public="false"/>
@@ -6042,7 +6066,7 @@
     <service id="Psr\Log\LoggerInterface" alias="monolog.logger" public="false"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.WaGDpDt" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem" public="false"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.55I.8Gd"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.S1Aviz6"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
     <service id="Psr\Log\LoggerInterface $consoleLogger" alias="monolog.logger.console"/>
@@ -6057,6 +6081,7 @@
     <service id="Psr\Log\LoggerInterface $securityLogger" alias="monolog.logger.security"/>
     <service id="Psr\Log\LoggerInterface $debugLogger" alias="monolog.logger.debug"/>
     <service id=".service_locator.AjmrG8B" alias=".service_locator.Xl5XdWY" public="false"/>
+    <service id=".service_locator.tPnNENT" alias=".service_locator..Pq8JkE" public="false"/>
     <service id="validator" alias="debug.validator" public="true"/>
     <service id="translator.data_collector.inner" alias="translator.default" public="false"/>
     <service id="event_dispatcher" alias="debug.event_dispatcher" public="true"/>

@@ -45,6 +45,12 @@ class Post
      */
     private $comments;
 
+    /**
+     * @var string|null 
+     * @ORM\Column
+     */
+    private $image = null;
+
     /** 
      * Post constructor
      * @throws \Exception
@@ -102,5 +108,15 @@ class Post
     public function getComments(): Collection
     {
         return $this->comments;
+    }
+
+    public function setImage(?string $image): void
+    {
+        $this->image = $image;
+    }
+
+    public function getImage(): ?string 
+    {
+        return $this->image;
     }
 }

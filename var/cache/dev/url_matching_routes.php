@@ -14,7 +14,7 @@ return [
         '/_profiler/phpinfo' => [[['_route' => '_profiler_phpinfo', '_controller' => 'web_profiler.controller.profiler::phpinfoAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
         '/' => [[['_route' => 'index', '_controller' => 'App\\Controller\\BlogController::index'], null, null, null, false, false, null]],
-        '/publier-artcile' => [[['_route' => 'blog_create', '_controller' => 'App\\Controller\\BlogController::create'], null, null, null, false, false, null]],
+        '/publier-article' => [[['_route' => 'blog_create', '_controller' => 'App\\Controller\\BlogController::create'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'
@@ -33,8 +33,8 @@ return [
                         .'|(*:159)'
                     .')'
                 .')'
-                .'|/artcile\\-([^/]++)(*:187)'
-                .'|/modifier\\-artcile([^/]++)(*:221)'
+                .'|/article\\-([^/]++)(*:187)'
+                .'|/modifier\\-article([^/]++)(*:221)'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
