@@ -18,4 +18,5 @@ return [
     'index' => [[], ['_controller' => 'App\\Controller\\BlogController::index'], [], [['text', '/']], [], []],
     'blog_read' => [['id'], ['_controller' => 'App\\Controller\\BlogController::read'], [], [['variable', '-', '[^/]++', 'id', true], ['text', '/artcile']], [], []],
     'blog_create' => [[], ['_controller' => 'App\\Controller\\BlogController::create'], [], [['text', '/publier-artcile']], [], []],
+    'blog_update' => [['id'], ['_controller' => 'App\\Controller\\BlogController::update'], [], [['variable', '', '[^/]++', 'id', true], ['text', '/modifier-artcile']], [], []],
 ];

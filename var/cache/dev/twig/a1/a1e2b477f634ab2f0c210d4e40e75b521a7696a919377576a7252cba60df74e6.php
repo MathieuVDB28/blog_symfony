@@ -97,7 +97,9 @@ class __TwigTemplate_7655227c089a47a8803ec43459026b325f5dfdff0ac05d7733c4a4e8450
     <a href=\"";
             // line 14
             echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("blog_read", ["id" => twig_get_attribute($this->env, $this->source, $context["post"], "id", [], "any", false, false, false, 14)]), "html", null, true);
-            echo "\">Lire la suite</a>
+            echo "\">Lire la suite</a> | <a href=\"";
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("blog_update", ["id" => twig_get_attribute($this->env, $this->source, $context["post"], "id", [], "any", false, false, false, 14)]), "html", null, true);
+            echo "\">Modifier l'article</a>
 ";
         }
         $_parent = $context['_parent'];
@@ -197,7 +199,7 @@ class __TwigTemplate_7655227c089a47a8803ec43459026b325f5dfdff0ac05d7733c4a4e8450
 
     public function getDebugInfo()
     {
-        return array (  177 => 43,  171 => 40,  168 => 39,  165 => 38,  159 => 35,  156 => 34,  153 => 33,  142 => 30,  139 => 29,  134 => 28,  128 => 25,  125 => 24,  122 => 23,  116 => 20,  113 => 19,  111 => 18,  107 => 16,  99 => 14,  95 => 13,  91 => 12,  87 => 11,  82 => 10,  78 => 9,  73 => 7,  68 => 4,  58 => 3,  35 => 1,);
+        return array (  179 => 43,  173 => 40,  170 => 39,  167 => 38,  161 => 35,  158 => 34,  155 => 33,  144 => 30,  141 => 29,  136 => 28,  130 => 25,  127 => 24,  124 => 23,  118 => 20,  115 => 19,  113 => 18,  109 => 16,  99 => 14,  95 => 13,  91 => 12,  87 => 11,  82 => 10,  78 => 9,  73 => 7,  68 => 4,  58 => 3,  35 => 1,);
     }
 
     public function getSourceContext()
@@ -215,7 +217,7 @@ class __TwigTemplate_7655227c089a47a8803ec43459026b325f5dfdff0ac05d7733c4a4e8450
     <small>{{ post.publishedAt|date(\"d/m/Y\") }}</small>
     <p>{{ post.content }}</p>
     <small>{{ post.comments|length }} commentaire(s)</small>
-    <a href=\"{{ path(\"blog_read\", { id: post.id }) }}\">Lire la suite</a>
+    <a href=\"{{ path(\"blog_read\", { id: post.id }) }}\">Lire la suite</a> | <a href=\"{{ path(\"blog_update\", { id: post.id }) }}\">Modifier l'article</a>
 {% endfor %}
 
 <ul>

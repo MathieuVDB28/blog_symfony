@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Entity\Comment;
 use App\Form\CommentType;
-use App\Form\PostType;      
+use App\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +33,7 @@ class BlogController extends AbstractController
             max($page - 2, 1),
             min($page + 2, $pages)
         );
-        return $this->render('index.html.twig', [
+        return $this->render('blog/index.html.twig', [
             "posts" => $posts,
             "pages" => $pages,
             "page" => $page,
@@ -57,7 +57,7 @@ class BlogController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute("blog_read", ["id" => $post->getId()]);
         }
-        return $this->render('read.html.twig', [
+        return $this->render('blog/read.html.twig', [
             "post" => $post,
             "form" => $form->createView()
         ]);
@@ -77,7 +77,23 @@ class BlogController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute("blog_read", ["id" => $post->getId()]);
         }
-        return $this->render('create.html.twig', [
+        return $this->render('blog/create.html.twig', [
+            "form" => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/modifier-artcile{id}", name="blog_update")
+     */
+    public function update(Request $request, Post $post): Response
+    {
+        $form = $this->createForm(PostType::class, $post)->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute("blog_read", ["id" => $post->getId()]);
+        }
+        return $this->render('blog/update.html.twig', [
             "form" => $form->createView()
         ]);
     }
