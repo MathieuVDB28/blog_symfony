@@ -10,15 +10,15 @@ class Credentials
      * @var string|null
      * Assert\NotBlank
      */
-    private $username;
+    private $username = null;
 
     /**
      * @var string|null
      * Assert\NotBlank
      */
-    private $password;
+    private $password = null;
 
-    public function __construct(?string $username)
+    public function __construct(?string $username = null)
     {
         $this->username = $username;
     }
