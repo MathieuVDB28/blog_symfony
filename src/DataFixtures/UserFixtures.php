@@ -35,7 +35,6 @@ class UserFixtures extends Fixture
         for ($i = 1; $i <= 10; $i++) {
             $user = new User();
             $user->setEmail(sprintf("email+%d@email.com", $i));
-            $user->setPseudo(sprintf("pseudo+%d", $i));
             $user->setPassword($this->userPasswordEncoder->encodePassword($user, "password"));
             $manager->persist($user);
         }

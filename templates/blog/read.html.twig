@@ -6,11 +6,15 @@
 <small>{{ post.publishedAt|date("d/m/Y") }}</small>
 <img src="{{ asset(post.image) }}" alt="{{ post.title }}">
 <p>{{ post.content }}</p>
-{{ form_start(form) }}
-    {{ form_row(form.author) }}
-    {{ form_row(form.content) }}
-    <button type="submit">Envoyer</button>
-{{ form_end(form) }}
+{% if is_granted("ROLE_USER") %}
+    {{ form_start(form) }}
+        {{ form_row(form.author) }}
+        {{ form_row(form.content) }}
+        <button type="submit">Envoyer</button>
+    {{ form_end(form) }}
+    {% else %}
+    <h3>Connectez-vous pour répondre à ce sujet</h3>
+{% endif %}
 <ul>
      {% for comment in post.comments %}
         <li>{{ comment.author }} : {{ comment.content }}</li>
